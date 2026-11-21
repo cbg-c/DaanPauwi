@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Little Corner</title>
+  <title>For Amber</title>
   <style>
     :root {
-      --bg: #fdf9f0;
-      --dot: #e6dec8;
-      --box-bg: #fffdf8;
-      --ink: #302a24;
-      --muted: #766b5e;
-      --border: #d8ceba;
-      --shadow: #ebe2ce;
-      --accent: #e7b95f;
-      --btn-bg: #f4ebd8;
-      --btn-active: #dcead9;
+      --bg: #fdf9f3;
+      --dot: #e7ddd0;
+      --box-bg: #fffdf9;
+      --ink: #2f2823;
+      --muted: #786a5e;
+      --border: #dcd0c0;
+      --shadow: #ece1d3;
+      --accent: #dfa06e;
+      --btn-bg: #f5eadb;
+      --btn-active: #e2ecdf;
     }
 
     * {
@@ -29,16 +29,59 @@
       background-image: radial-gradient(var(--dot) 1.25px, transparent 1.25px);
       background-size: 22px 22px;
       color: var(--ink);
-      font: 17px/1.7 Georgia, "Iowan Old Style", "Times New Roman", serif;
+      font: 17px/1.75 Georgia, "Iowan Old Style", "Times New Roman", serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
       padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .cover {
+      margin: auto;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      background: var(--box-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      box-shadow: 4px 4px 0 var(--shadow);
+    }
+
+    .cover p {
+      margin: 0 0 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    .open-btn {
+      appearance: none;
+      border: 1.5px solid var(--border);
+      background: var(--btn-bg);
+      color: var(--ink);
+      font: 14px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      padding: 0.75rem 1.4rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s ease;
+    }
+
+    .open-btn:hover {
+      transform: translateY(-1px);
+      background: #efe0cb;
     }
 
     .wrap {
       width: 100%;
-      max-width: 640px;
+      max-width: 620px;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    .wrap.visible {
+      opacity: 1;
+    }
+
+    .hidden {
+      display: none;
     }
 
     header {
@@ -47,14 +90,13 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
 
     h1 {
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 1.55rem;
       font-weight: normal;
-      letter-spacing: -0.01em;
     }
 
     .audio-btn {
@@ -110,9 +152,9 @@
     }
 
     footer {
-      margin-top: 2.5rem;
-      text-align: center;
-      font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      margin-top: 2.25rem;
+      text-align: right;
+      font-style: italic;
       color: var(--muted);
     }
 
@@ -124,9 +166,14 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div id="cover" class="cover">
+    <p>For: Amber</p>
+    <button id="open-btn" class="open-btn" type="button">Open</button>
+  </div>
+
+  <div id="content" class="wrap hidden">
     <header>
-      <h1>Hello there.</h1>
+      <h1>Hi Love,</h1>
       <button id="audio-toggle" class="audio-btn" type="button" aria-pressed="false">
         &#9834; Play music
       </button>
@@ -134,72 +181,68 @@
 
     <main>
       <section class="box">
-        <h2>Box One</h2>
+        <h2>Finding our way home</h2>
         <p>
-          Replace this with your first paragraph. You can write whatever you like here—a short
-          note, an intro, or a story. The box will automatically expand to fit your text.
+          I know it feels like our nyc apartment got blown up by a flying butthole,
+          But we always end up finding enough cobblestone to rebuild it.
+          I've realized there's no other family on earth that will make me feel as home as you do.
         </p>
         <p>
-          Add a second paragraph like this whenever you want a break. Keep it as long or as
-          short as you want.
+          I don't want to rush you or make you feel like it's now or never.
+          You will always have me, and just like at union station, I'll always be there to pick you up.
         </p>
       </section>
 
       <section class="box">
-        <h2>Box Two</h2>
+        <h2>So, my question is</h2>
         <p>
-          Here is your second box. If you only need one box, just delete this entire
-          section block in the HTML.
+          We could have a fresh start, and take our time this time.
+        </p>
+        <p>
+          Would you let me be yours again? 
         </p>
       </section>
     </main>
 
     <footer>
-      made by you
+      — Cory <3
     </footer>
   </div>
 
-  <audio id="bg-audio" src="music.mp3" loop preload="auto"></audio>
+  <audio id="bg-audio" loop preload="auto">
+    <source src="CantBeMoved.m4a" type="audio/mp4">
+  </audio>
 
   <script>
+    const cover = document.getElementById("cover");
+    const openBtn = document.getElementById("open-btn");
+    const content = document.getElementById("content");
     const audio = document.getElementById("bg-audio");
-    const btn = document.getElementById("audio-toggle");
-    audio.volume = 0.35;
+    const audioBtn = document.getElementById("audio-toggle");
+
+    audio.volume = 0.4;
 
     function syncButton() {
       const playing = !audio.paused;
-      btn.classList.toggle("playing", playing);
-      btn.setAttribute("aria-pressed", String(playing));
-      btn.textContent = playing ? "♪ Pause music" : "♪ Play music";
+      audioBtn.classList.toggle("playing", playing);
+      audioBtn.setAttribute("aria-pressed", String(playing));
+      audioBtn.textContent = playing ? "♪ Pause music" : "♪ Play music";
     }
 
-    function removeUnlockers() {
-      document.removeEventListener("click", unlockAudio);
-      document.removeEventListener("keydown", unlockAudio);
-    }
+    openBtn.addEventListener("click", () => {
+      cover.classList.add("hidden");
+      content.classList.remove("hidden");
+      requestAnimationFrame(() => content.classList.add("visible"));
+      audio.play().then(syncButton).catch(syncButton);
+    });
 
-    function unlockAudio(e) {
-      if (e.target === btn) return;
-      audio.play().then(() => {
-        removeUnlockers();
-        syncButton();
-      }).catch(() => {});
-    }
-
-    btn.addEventListener("click", () => {
-      removeUnlockers();
+    audioBtn.addEventListener("click", () => {
       if (audio.paused) {
         audio.play().then(syncButton).catch(() => {});
       } else {
         audio.pause();
         syncButton();
       }
-    });
-
-    audio.play().then(syncButton).catch(() => {
-      document.addEventListener("click", unlockAudio);
-      document.addEventListener("keydown", unlockAudio);
-      syncButton();
     });
   </script>
 </body>
