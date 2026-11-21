@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ang Daan Pauwi</title>
-  <link rel="icon" type="image/webp" href="lupangamber.webp">
-  <link rel="apple-touch-icon" href="lupangamber.webp">
+  <link id="favicon" rel="icon" type="image/webp" href="./lupangamber.webp?v=2">
+  <link rel="shortcut icon" href="./lupangamber.webp?v=2">
+  <link rel="apple-touch-icon" href="./lupangamber.webp?v=2">
   <style>
     :root {
       --bg: #fdf9f3;
@@ -226,7 +227,7 @@
       transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    #slide-1.active .box-question {
+    .slide-question.active .box-question {
       transform: scale(1);
     }
 
@@ -249,7 +250,7 @@
       transition: background-size 0.2s ease;
     }
 
-    #slide-1.active .q-highlight {
+    .slide-question.active .q-highlight {
       background-size: 100% 100%;
       transition: background-size 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.55s;
     }
@@ -264,7 +265,7 @@
       transition: transform 0.25s ease;
     }
 
-    #slide-1.active .q-rule {
+    .slide-question.active .q-rule {
       transform: scaleX(1);
       transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
     }
@@ -282,30 +283,18 @@
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
-    #slide-1.active .reveal-item {
+    .slide-question.active .reveal-item {
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    #slide-1.active .delay-1 {
+    .slide-question.active .delay-1 {
       transition-delay: 0.16s;
     }
 
-    #slide-1.active .delay-2 {
+    .slide-question.active .delay-2 {
       transition-delay: 0.62s;
-    }
-
-    #slide-1.active .delay-3 {
-      transition-delay: 0.92s;
-    }
-
-    footer {
-      margin-top: 1.75rem;
-      text-align: center;
-      font-size: 1.05rem;
-      font-style: italic;
-      color: var(--q-muted);
     }
 
     .scroll-hint {
@@ -320,6 +309,10 @@
       padding: 0.4rem 0.75rem;
       opacity: 0.85;
       transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .scroll-hint.up {
+      margin: 0 auto 1.25rem;
     }
 
     .scroll-hint:hover {
@@ -382,29 +375,34 @@
             <br>
             There's no other family on earth that will make me feel as home as you do.
           </p>
+        </section>
+        <button class="scroll-hint" type="button" data-target="1">&#8595; scroll</button>
+      </div>
+
+      <div id="slide-1" class="slide below">
+        <button class="scroll-hint up" type="button" data-target="0">&#8593; back</button>
+        <section class="box">
+          <h2>No rush</h2>
           <p>
             I don't want to rush you or make you feel like it's now or never. <br>
             <br>
             You will always have me, and just like at union station, I'll always be there to pick you up.
           </p>
         </section>
-        <button id="to-slide-1" class="scroll-hint" type="button">&#8595; scroll</button>
+        <button class="scroll-hint" type="button" data-target="2">&#8595; scroll</button>
       </div>
 
-      <div id="slide-1" class="slide below">
-        <button id="to-slide-0" class="scroll-hint up" type="button" style="margin: 0 auto 1.25rem;">&#8593; back</button>
+      <div id="slide-2" class="slide slide-question below">
+        <button class="scroll-hint up" type="button" data-target="1">&#8593; back</button>
         <section class="box box-question">
           <h2 class="reveal-item delay-1">
-            Would you let me <span class="q-highlight">be yours again?</span>
+            Would you let me be <span class="q-highlight">yours</span> again?
           </h2>
           <div class="q-rule"></div>
           <p class="reveal-item delay-2">
-            We could have a fresh start, and take our time this time.
+            - Cory &lt;3
           </p>
         </section>
-        <footer class="reveal-item delay-3">
-          — Cory &lt;3
-        </footer>
       </div>
     </main>
   </div>
@@ -420,16 +418,29 @@
     const audio = document.getElementById("bg-audio");
     const audioBtn = document.getElementById("audio-toggle");
     const volumeSlider = document.getElementById("volume-slider");
-    const slide0 = document.getElementById("slide-0");
-    const slide1 = document.getElementById("slide-1");
-    const toSlide1 = document.getElementById("to-slide-1");
-    const toSlide0 = document.getElementById("to-slide-0");
+    const slides = [
+      document.getElementById("slide-0"),
+      document.getElementById("slide-1"),
+      document.getElementById("slide-2")
+    ];
 
     let currentSlide = 0;
     let isLocked = false;
     let touchStartY = null;
 
     audio.volume = parseFloat(volumeSlider.value);
+
+    const favImg = new Image();
+    favImg.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = 64;
+      c.height = 64;
+      c.getContext("2d").drawImage(favImg, 0, 0, 64, 64);
+      const favLink = document.getElementById("favicon");
+      favLink.type = "image/png";
+      favLink.href = c.toDataURL("image/png");
+    };
+    favImg.src = "./lupangamber.webp?v=2";
 
     function syncButton() {
       const playing = !audio.paused;
@@ -439,23 +450,18 @@
     }
 
     function goToSlide(index) {
-      if (isLocked || index === currentSlide || index < 0 || index > 1) return;
+      if (isLocked || index === currentSlide || index < 0 || index >= slides.length) return;
       isLocked = true;
       currentSlide = index;
 
-      if (index === 1) {
-        slide0.classList.remove("active");
-        slide0.classList.add("above");
-        slide1.classList.remove("below");
-        slide1.classList.add("active");
-        document.body.classList.add("on-question");
-      } else {
-        slide1.classList.remove("active");
-        slide1.classList.add("below");
-        slide0.classList.remove("above");
-        slide0.classList.add("active");
-        document.body.classList.remove("on-question");
-      }
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active", "above", "below");
+        if (i < index) slide.classList.add("above");
+        else if (i === index) slide.classList.add("active");
+        else slide.classList.add("below");
+      });
+
+      document.body.classList.toggle("on-question", index === slides.length - 1);
 
       setTimeout(() => {
         isLocked = false;
@@ -482,13 +488,14 @@
       audio.volume = parseFloat(volumeSlider.value);
     });
 
-    toSlide1.addEventListener("click", () => goToSlide(1));
-    toSlide0.addEventListener("click", () => goToSlide(0));
+    document.querySelectorAll("[data-target]").forEach((btn) => {
+      btn.addEventListener("click", () => goToSlide(Number(btn.dataset.target)));
+    });
 
     window.addEventListener("wheel", (e) => {
       if (content.classList.contains("hidden")) return;
-      if (e.deltaY > 15) goToSlide(1);
-      else if (e.deltaY < -15) goToSlide(0);
+      if (e.deltaY > 15) goToSlide(currentSlide + 1);
+      else if (e.deltaY < -15) goToSlide(currentSlide - 1);
     }, { passive: true });
 
     window.addEventListener("touchstart", (e) => {
@@ -499,15 +506,15 @@
     window.addEventListener("touchend", (e) => {
       if (touchStartY === null || content.classList.contains("hidden")) return;
       const diff = touchStartY - e.changedTouches[0].clientY;
-      if (diff > 40) goToSlide(1);
-      else if (diff < -40) goToSlide(0);
+      if (diff > 40) goToSlide(currentSlide + 1);
+      else if (diff < -40) goToSlide(currentSlide - 1);
       touchStartY = null;
     }, { passive: true });
 
     window.addEventListener("keydown", (e) => {
       if (content.classList.contains("hidden")) return;
-      if (e.key === "ArrowDown" || e.key === "PageDown") goToSlide(1);
-      else if (e.key === "ArrowUp" || e.key === "PageUp") goToSlide(0);
+      if (e.key === "ArrowDown" || e.key === "PageDown") goToSlide(currentSlide + 1);
+      else if (e.key === "ArrowUp" || e.key === "PageUp") goToSlide(currentSlide - 1);
     });
   </script>
 </body>
