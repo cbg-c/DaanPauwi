@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Amber</title>
+  <title>Ang Daan Pauwi</title>
   <link rel="icon" type="image/webp" href="lupangamber.webp">
   <link rel="apple-touch-icon" href="lupangamber.webp">
   <style>
@@ -18,6 +18,14 @@
       --accent: #dfa06e;
       --btn-bg: #f5eadb;
       --btn-active: #e2ecdf;
+      --q-page-bg: #fbf2ee;
+      --q-dot: #ead7cf;
+      --q-bg: #fff7f4;
+      --q-ink: #38211f;
+      --q-muted: #8a635e;
+      --q-border: #e5c3ba;
+      --q-shadow: #efd5ce;
+      --q-accent: #cf6f68;
     }
 
     * {
@@ -39,6 +47,12 @@
       display: flex;
       justify-content: center;
       padding: 2rem 1.25rem;
+      transition: background-color 0.7s ease;
+    }
+
+    body.on-question {
+      background-color: var(--q-page-bg);
+      background-image: radial-gradient(var(--q-dot) 1.25px, transparent 1.25px);
     }
 
     .cover {
@@ -200,11 +214,98 @@
       margin-bottom: 0;
     }
 
+    .box-question {
+      background: var(--q-bg);
+      color: var(--q-ink);
+      border: 1.5px solid var(--q-border);
+      border-radius: 16px;
+      padding: 3.25rem 2.5rem;
+      box-shadow: 5px 5px 0 var(--q-shadow);
+      text-align: center;
+      transform: scale(0.95);
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #slide-1.active .box-question {
+      transform: scale(1);
+    }
+
+    .box-question h2 {
+      display: block;
+      border-bottom: none;
+      padding-bottom: 0;
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.3;
+      font-style: italic;
+      color: var(--q-ink);
+    }
+
+    .q-highlight {
+      background-image: linear-gradient(transparent 66%, rgba(207, 111, 104, 0.28) 66%);
+      background-repeat: no-repeat;
+      background-size: 0% 100%;
+      padding: 0 0.12em;
+      transition: background-size 0.2s ease;
+    }
+
+    #slide-1.active .q-highlight {
+      background-size: 100% 100%;
+      transition: background-size 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.55s;
+    }
+
+    .q-rule {
+      width: 56px;
+      height: 2px;
+      background: var(--q-accent);
+      margin: 1.65rem auto;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    #slide-1.active .q-rule {
+      transform: scaleX(1);
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+    }
+
+    .box-question p {
+      font-size: 1.2rem;
+      line-height: 1.65;
+      color: var(--q-muted);
+      margin: 0;
+    }
+
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #slide-1.active .reveal-item {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #slide-1.active .delay-1 {
+      transition-delay: 0.16s;
+    }
+
+    #slide-1.active .delay-2 {
+      transition-delay: 0.62s;
+    }
+
+    #slide-1.active .delay-3 {
+      transition-delay: 0.92s;
+    }
+
     footer {
       margin-top: 1.75rem;
-      text-align: right;
+      text-align: center;
+      font-size: 1.05rem;
       font-style: italic;
-      color: var(--muted);
+      color: var(--q-muted);
     }
 
     .scroll-hint {
@@ -238,6 +339,18 @@
       .box {
         padding: 1.5rem;
       }
+
+      .box-question {
+        padding: 2.25rem 1.5rem;
+      }
+
+      .box-question h2 {
+        font-size: 1.55rem;
+      }
+
+      .box-question p {
+        font-size: 1.08rem;
+      }
     }
   </style>
 </head>
@@ -264,11 +377,14 @@
           <h2>Finding our way home</h2>
           <p>
             I know it feels like our nyc apartment got blown up by a flying butthole, <br>
+            <br>
             But we always end up finding enough cobblestone to rebuild it. <br>
-            I've realized there's no other family on earth that will make me feel as home as you do.
+            <br>
+            There's no other family on earth that will make me feel as home as you do.
           </p>
           <p>
             I don't want to rush you or make you feel like it's now or never. <br>
+            <br>
             You will always have me, and just like at union station, I'll always be there to pick you up.
           </p>
         </section>
@@ -277,13 +393,16 @@
 
       <div id="slide-1" class="slide below">
         <button id="to-slide-0" class="scroll-hint up" type="button" style="margin: 0 auto 1.25rem;">&#8593; back</button>
-        <section class="box">
-          <h2>Would you let me be yours again?</h2>
-          <p>
+        <section class="box box-question">
+          <h2 class="reveal-item delay-1">
+            Would you let me <span class="q-highlight">be yours again?</span>
+          </h2>
+          <div class="q-rule"></div>
+          <p class="reveal-item delay-2">
             We could have a fresh start, and take our time this time.
           </p>
         </section>
-        <footer>
+        <footer class="reveal-item delay-3">
           — Cory &lt;3
         </footer>
       </div>
@@ -329,11 +448,13 @@
         slide0.classList.add("above");
         slide1.classList.remove("below");
         slide1.classList.add("active");
+        document.body.classList.add("on-question");
       } else {
         slide1.classList.remove("active");
         slide1.classList.add("below");
         slide0.classList.remove("above");
         slide0.classList.add("active");
+        document.body.classList.remove("on-question");
       }
 
       setTimeout(() => {
