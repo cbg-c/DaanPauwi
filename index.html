@@ -3,24 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Name</title>
+  <title>My Little Corner</title>
   <style>
     :root {
-      --bg: #f9f9f7;
-      --fg: #1c1c1b;
-      --muted: #666661;
-      --border: #e3e3de;
-      --link: #1248a8;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #141413;
-        --fg: #e5e5e0;
-        --muted: #8f8f88;
-        --border: #2a2a27;
-        --link: #7ca8f8;
-      }
+      --bg: #fdf9f0;
+      --dot: #e6dec8;
+      --box-bg: #fffdf8;
+      --ink: #302a24;
+      --muted: #766b5e;
+      --border: #d8ceba;
+      --shadow: #ebe2ce;
+      --accent: #e7b95f;
+      --btn-bg: #f4ebd8;
+      --btn-active: #dcead9;
     }
 
     * {
@@ -28,194 +23,184 @@
     }
 
     body {
-      margin: 0 auto;
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--dot) 1.25px, transparent 1.25px);
+      background-size: 22px 22px;
+      color: var(--ink);
+      font: 17px/1.7 Georgia, "Iowan Old Style", "Times New Roman", serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .wrap {
+      width: 100%;
       max-width: 640px;
-      padding: 3rem 1.25rem 5rem;
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      color: var(--link);
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
-    }
-
-    a:hover {
-      text-decoration-thickness: 2px;
     }
 
     header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: baseline;
-      gap: 0.75rem 1.5rem;
-      padding-bottom: 1.5rem;
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .site-name {
-      font-weight: 600;
-      color: var(--fg);
-      text-decoration: none;
-    }
-
-    nav {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.92rem;
-    }
-
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    nav a:hover {
-      color: var(--fg);
-      text-decoration: underline;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
     h1 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 0 0 1rem;
-    }
-
-    h2 {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      margin: 3rem 0 1rem;
-    }
-
-    p {
-      margin: 0 0 1rem;
-    }
-
-    .list {
-      list-style: none;
-      padding: 0;
       margin: 0;
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: -0.01em;
     }
 
-    .list li {
-      padding: 0.75rem 0;
-      border-top: 1px solid var(--border);
+    .audio-btn {
+      appearance: none;
+      border: 1.5px solid var(--border);
+      background: var(--btn-bg);
+      color: var(--ink);
+      font: 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s ease;
     }
 
-    .list li:last-child {
-      border-bottom: 1px solid var(--border);
+    .audio-btn:hover {
+      transform: translateY(-1px);
     }
 
-    .row {
+    .audio-btn.playing {
+      background: var(--btn-active);
+      border-color: #b7cfb3;
+    }
+
+    main {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.25rem 1rem;
+      flex-direction: column;
+      gap: 1.75rem;
     }
 
-    .meta {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.82rem;
-      color: var(--muted);
+    .box {
+      background: var(--box-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      box-shadow: 4px 4px 0 var(--shadow);
     }
 
-    .desc {
-      margin: 0.25rem 0 0;
-      font-size: 0.94rem;
-      color: var(--muted);
+    .box h2 {
+      margin: 0 0 0.9rem;
+      font-size: 1.15rem;
+      font-weight: normal;
+      display: inline-block;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.15rem;
+    }
+
+    .box p {
+      margin: 0 0 1rem;
+    }
+
+    .box p:last-child {
+      margin-bottom: 0;
     }
 
     footer {
-      margin-top: 4rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.88rem;
+      margin-top: 2.5rem;
+      text-align: center;
+      font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       color: var(--muted);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.5rem 1rem;
     }
 
-    footer a {
-      color: var(--muted);
+    @media (max-width: 520px) {
+      .box {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a class="site-name" href="/">Your Name</a>
-    <nav>
-      <a href="#projects">Projects</a>
-      <a href="#notes">Notes</a>
-      <a href="https://github.com/username">GitHub</a>
-    </nav>
-  </header>
+  <div class="wrap">
+    <header>
+      <h1>Hello there.</h1>
+      <button id="audio-toggle" class="audio-btn" type="button" aria-pressed="false">
+        &#9834; Play music
+      </button>
+    </header>
 
-  <main>
-    <section>
-      <h1>Hi, I'm [Name].</h1>
-      <p>
-        I write software, build small tools, and keep notes here on things I am working on.
-        Currently based in [City].
-      </p>
-    </section>
+    <main>
+      <section class="box">
+        <h2>Box One</h2>
+        <p>
+          Replace this with your first paragraph. You can write whatever you like here—a short
+          note, an intro, or a story. The box will automatically expand to fit your text.
+        </p>
+        <p>
+          Add a second paragraph like this whenever you want a break. Keep it as long or as
+          short as you want.
+        </p>
+      </section>
 
-    <section id="projects">
-      <h2>Projects</h2>
-      <ul class="list">
-        <li>
-          <div class="row">
-            <a href="https://github.com/username/project-one">project-one</a>
-            <span class="meta">2026 / Python</span>
-          </div>
-          <p class="desc">Short, plain description of what this does and why you made it.</p>
-        </li>
-        <li>
-          <div class="row">
-            <a href="https://github.com/username/project-two">project-two</a>
-            <span class="meta">2025 / C</span>
-          </div>
-          <p class="desc">A command-line utility for handling a specific workflow.</p>
-        </li>
-        <li>
-          <div class="row">
-            <a href="https://github.com/username/project-three">project-three</a>
-            <span class="meta">2024 / HTML &amp; JS</span>
-          </div>
-          <p class="desc">Small browser tool with no backend or dependencies.</p>
-        </li>
-      </ul>
-    </section>
+      <section class="box">
+        <h2>Box Two</h2>
+        <p>
+          Here is your second box. If you only need one box, just delete this entire
+          section block in the HTML.
+        </p>
+      </section>
+    </main>
 
-    <section id="notes">
-      <h2>Notes</h2>
-      <ul class="list">
-        <li class="row">
-          <a href="/notes/example.html">How I set up my local dev environment</a>
-          <span class="meta">2026-11-12</span>
-        </li>
-        <li class="row">
-          <a href="/notes/another.html">Debugging a weird edge case in networking</a>
-          <span class="meta">2026-09-04</span>
-        </li>
-      </ul>
-    </section>
-  </main>
+    <footer>
+      made by you
+    </footer>
+  </div>
 
-  <footer>
-    <span>you@example.com</span>
-    <span><a href="https://github.com/username">GitHub</a> / <a href="https://linkedin.com/in/username">LinkedIn</a></span>
-  </footer>
+  <audio id="bg-audio" src="music.mp3" loop preload="auto"></audio>
+
+  <script>
+    const audio = document.getElementById("bg-audio");
+    const btn = document.getElementById("audio-toggle");
+    audio.volume = 0.35;
+
+    function syncButton() {
+      const playing = !audio.paused;
+      btn.classList.toggle("playing", playing);
+      btn.setAttribute("aria-pressed", String(playing));
+      btn.textContent = playing ? "♪ Pause music" : "♪ Play music";
+    }
+
+    function removeUnlockers() {
+      document.removeEventListener("click", unlockAudio);
+      document.removeEventListener("keydown", unlockAudio);
+    }
+
+    function unlockAudio(e) {
+      if (e.target === btn) return;
+      audio.play().then(() => {
+        removeUnlockers();
+        syncButton();
+      }).catch(() => {});
+    }
+
+    btn.addEventListener("click", () => {
+      removeUnlockers();
+      if (audio.paused) {
+        audio.play().then(syncButton).catch(() => {});
+      } else {
+        audio.pause();
+        syncButton();
+      }
+    });
+
+    audio.play().then(syncButton).catch(() => {
+      document.addEventListener("click", unlockAudio);
+      document.addEventListener("keydown", unlockAudio);
+      syncButton();
+    });
+  </script>
 </body>
 </html>
