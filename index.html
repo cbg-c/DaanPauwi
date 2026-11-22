@@ -18,7 +18,6 @@
       --shadow: #ece1d3;
       --accent: #dfa06e;
       --btn-bg: #f5eadb;
-      --btn-active: #e2ecdf;
       --q-page-bg: #fbf2ee;
       --q-dot: #ead7cf;
       --q-bg: #fff7f4;
@@ -27,6 +26,11 @@
       --q-border: #e5c3ba;
       --q-shadow: #efd5ce;
       --q-accent: #cf6f68;
+      --sp-bg: #181818;
+      --sp-surface: #282828;
+      --sp-green: #1db954;
+      --sp-text: #ffffff;
+      --sp-sub: #b3b3b3;
     }
 
     * {
@@ -156,43 +160,244 @@
 
     header {
       flex-shrink: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
       padding-bottom: 1rem;
     }
 
-    .audio-controls {
+    .sp-player {
+      width: 100%;
+      background: var(--sp-bg);
+      color: var(--sp-text);
+      border-radius: 12px;
+      padding: 0.75rem 1rem 0.65rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .sp-top {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      justify-content: space-between;
+      gap: 0.75rem;
     }
 
-    .audio-btn {
+    .sp-track {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .sp-art {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #2e2e2e 0%, #121212 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .sp-eq-bar {
+      width: 3px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--sp-green);
+      transform-origin: bottom;
+      transform: scaleY(0.35);
+      transition: transform 0.2s ease;
+    }
+
+    .sp-player.playing .sp-eq-bar {
+      animation: sp-eq 0.9s ease-in-out infinite alternate;
+    }
+
+    .sp-player.playing .sp-eq-bar:nth-child(2) {
+      animation-delay: 0.22s;
+      animation-duration: 0.72s;
+    }
+
+    .sp-player.playing .sp-eq-bar:nth-child(3) {
+      animation-delay: 0.45s;
+      animation-duration: 0.85s;
+    }
+
+    @keyframes sp-eq {
+      0% { transform: scaleY(0.25); }
+      100% { transform: scaleY(1); }
+    }
+
+    .sp-meta {
+      min-width: 0;
+    }
+
+    .sp-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--sp-text);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sp-artist {
+      font-size: 0.75rem;
+      color: var(--sp-sub);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sp-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .sp-play {
       appearance: none;
-      border: 1.5px solid var(--border);
-      background: var(--btn-bg);
-      color: var(--ink);
-      font: 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      padding: 0.55rem 0.9rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--sp-text);
+      color: #121212;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.12s ease, background-color 0.15s ease;
+    }
+
+    .sp-play:hover {
+      transform: scale(1.06);
+      background: #f0f0f0;
+    }
+
+    .sp-play svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    .sp-vol {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sp-vol-btn {
+      appearance: none;
+      background: none;
+      border: none;
+      color: var(--sp-sub);
+      padding: 2px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .sp-vol-btn:hover {
+      color: var(--sp-text);
+    }
+
+    .sp-vol-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .sp-progress {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 0.55rem;
+    }
+
+    .sp-time {
+      font-size: 0.68rem;
+      color: var(--sp-sub);
+      font-variant-numeric: tabular-nums;
+      min-width: 2.15rem;
+      user-select: none;
+    }
+
+    .sp-time-end {
+      text-align: right;
+    }
+
+    .sp-range {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
       border-radius: 999px;
+      background: linear-gradient(
+        to right,
+        var(--range-fill, #ffffff) var(--pct, 0%),
+        #4d4d4d var(--pct, 0%)
+      );
       cursor: pointer;
-      transition: transform 0.1s ease, background-color 0.2s ease;
+      outline: none;
+      margin: 0;
     }
 
-    .audio-btn:hover {
-      transform: translateY(-1px);
+    .sp-seek {
+      flex: 1;
+      min-width: 0;
     }
 
-    .audio-btn.playing {
-      background: var(--btn-active);
-      border-color: #b7cfb3;
+    .sp-vol-slider {
+      width: 68px;
     }
 
-    .volume-slider {
-      width: 78px;
-      accent-color: var(--accent);
-      cursor: pointer;
+    .sp-progress:hover .sp-range,
+    .sp-vol:hover .sp-range,
+    .sp-range:focus-visible {
+      --range-fill: var(--sp-green);
+    }
+
+    .sp-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .sp-progress:hover .sp-range::-webkit-slider-thumb,
+    .sp-vol:hover .sp-range::-webkit-slider-thumb,
+    .sp-range:active::-webkit-slider-thumb,
+    .sp-range:focus-visible::-webkit-slider-thumb {
+      opacity: 1;
+    }
+
+    .sp-range::-moz-range-thumb {
+      width: 11px;
+      height: 11px;
+      border: none;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .sp-progress:hover .sp-range::-moz-range-thumb,
+    .sp-vol:hover .sp-range::-moz-range-thumb,
+    .sp-range:active::-moz-range-thumb,
+    .sp-range:focus-visible::-moz-range-thumb {
+      opacity: 1;
     }
 
     .stage {
@@ -375,6 +580,14 @@
         padding: 5.75rem 1.5rem 2.25rem;
       }
 
+      .sp-player {
+        padding: 0.65rem 0.8rem 0.6rem;
+      }
+
+      .sp-vol-slider {
+        width: 48px;
+      }
+
       .intro-title {
         font-size: 2rem;
       }
@@ -416,11 +629,51 @@
 
   <div id="content" class="wrap hidden">
     <header>
-      <div class="audio-controls">
-        <button id="audio-toggle" class="audio-btn" type="button" aria-pressed="false">
-          &#9834; Play music
-        </button>
-        <input id="volume-slider" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.15" aria-label="Music volume">
+      <div id="sp-player" class="sp-player">
+        <div class="sp-top">
+          <div class="sp-track">
+            <div class="sp-art" aria-hidden="true">
+              <span class="sp-eq-bar"></span>
+              <span class="sp-eq-bar"></span>
+              <span class="sp-eq-bar"></span>
+            </div>
+            <div class="sp-meta">
+              <div class="sp-title">The Man Who Can't Be Moved</div>
+              <div class="sp-artist">The Script</div>
+            </div>
+          </div>
+
+          <div class="sp-controls">
+            <button id="audio-toggle" class="sp-play" type="button" aria-label="Play music" aria-pressed="false">
+              <svg id="icon-play" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"/>
+              </svg>
+              <svg id="icon-pause" class="hidden" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z"/>
+              </svg>
+            </button>
+
+            <div class="sp-vol">
+              <button id="mute-btn" class="sp-vol-btn" type="button" aria-label="Mute">
+                <svg id="icon-vol" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.642 3.642 0 0 1-1.33-4.967 3.639 3.639 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.139 2.139 0 0 0 0 3.7l5.8 3.35V2.8l-5.8 3.35zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88z"/>
+                  <path d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127v1.55z"/>
+                </svg>
+                <svg id="icon-mute" class="hidden" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M13.86 5.47a.75.75 0 0 0-1.061 0l-1.47 1.47-1.47-1.47A.75.75 0 0 0 8.8 6.53L10.269 8l-1.47 1.47a.75.75 0 1 0 1.06 1.06l1.47-1.47 1.47 1.47a.75.75 0 0 0 1.06-1.06L12.39 8l1.47-1.47a.75.75 0 0 0 0-1.06z"/>
+                  <path d="M10.116 1.5A.75.75 0 0 0 8.991.85l-6.925 4a3.642 3.642 0 0 0-1.33 4.967 3.639 3.639 0 0 0 1.33 1.332l6.925 4a.75.75 0 0 0 1.125-.649v-1.906a4.73 4.73 0 0 1-1.5-.694v1.3L2.817 9.852a2.141 2.141 0 0 1-.781-2.92c.187-.324.456-.594.78-.782l5.8-3.35v1.3c.45-.313.956-.55 1.5-.694V1.5z"/>
+                </svg>
+              </button>
+              <input id="volume-slider" class="sp-range sp-vol-slider" type="range" min="0" max="1" step="0.01" value="0.15" aria-label="Music volume">
+            </div>
+          </div>
+        </div>
+
+        <div class="sp-progress">
+          <span id="time-current" class="sp-time">0:00</span>
+          <input id="seek-slider" class="sp-range sp-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Song progress">
+          <span id="time-duration" class="sp-time sp-time-end">0:00</span>
+        </div>
       </div>
     </header>
 
@@ -481,8 +734,17 @@
     const openBtn = document.getElementById("open-btn");
     const content = document.getElementById("content");
     const audio = document.getElementById("bg-audio");
+    const player = document.getElementById("sp-player");
     const audioBtn = document.getElementById("audio-toggle");
+    const iconPlay = document.getElementById("icon-play");
+    const iconPause = document.getElementById("icon-pause");
+    const muteBtn = document.getElementById("mute-btn");
+    const iconVol = document.getElementById("icon-vol");
+    const iconMute = document.getElementById("icon-mute");
     const volumeSlider = document.getElementById("volume-slider");
+    const seekSlider = document.getElementById("seek-slider");
+    const timeCurrent = document.getElementById("time-current");
+    const timeDuration = document.getElementById("time-duration");
     const slides = [
       document.getElementById("slide-0"),
       document.getElementById("slide-1"),
@@ -493,8 +755,56 @@
     let currentSlide = 0;
     let isLocked = false;
     let touchStartY = null;
+    let isSeeking = false;
+    let lastVolume = parseFloat(volumeSlider.value);
 
-    audio.volume = parseFloat(volumeSlider.value);
+    function formatTime(sec) {
+      if (!Number.isFinite(sec) || sec < 0) return "0:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? "0" : ""}${s}`;
+    }
+
+    function setRangePct(el, pct) {
+      el.style.setProperty("--pct", `${Math.max(0, Math.min(100, pct))}%`);
+    }
+
+    function syncVolumeUI() {
+      const vol = audio.muted ? 0 : audio.volume;
+      volumeSlider.value = vol;
+      setRangePct(volumeSlider, vol * 100);
+      iconVol.classList.toggle("hidden", vol === 0);
+      iconMute.classList.toggle("hidden", vol > 0);
+      muteBtn.setAttribute("aria-label", vol === 0 ? "Unmute" : "Mute");
+    }
+
+    function syncButton() {
+      const playing = !audio.paused;
+      player.classList.toggle("playing", playing);
+      audioBtn.setAttribute("aria-pressed", String(playing));
+      audioBtn.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+      iconPlay.classList.toggle("hidden", playing);
+      iconPause.classList.toggle("hidden", !playing);
+    }
+
+    function syncProgress() {
+      if (isSeeking || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      seekSlider.value = pct;
+      setRangePct(seekSlider, pct);
+      timeCurrent.textContent = formatTime(audio.currentTime);
+    }
+
+    function syncDuration() {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        timeDuration.textContent = formatTime(audio.duration);
+      }
+    }
+
+    audio.volume = lastVolume;
+    syncVolumeUI();
+    setRangePct(seekSlider, 0);
+    if (audio.readyState >= 1) syncDuration();
 
     const favImg = new Image();
     favImg.onload = () => {
@@ -507,13 +817,6 @@
       favLink.href = c.toDataURL("image/png");
     };
     favImg.src = "./lupangamber.webp?v=2";
-
-    function syncButton() {
-      const playing = !audio.paused;
-      audioBtn.classList.toggle("playing", playing);
-      audioBtn.setAttribute("aria-pressed", String(playing));
-      audioBtn.textContent = playing ? "♪ Pause music" : "♪ Play music";
-    }
 
     function goToSlide(index) {
       if (isLocked || index === currentSlide || index < 0 || index >= slides.length) return;
@@ -550,9 +853,46 @@
       }
     });
 
-    volumeSlider.addEventListener("input", () => {
-      audio.volume = parseFloat(volumeSlider.value);
+    muteBtn.addEventListener("click", () => {
+      if (audio.muted || audio.volume === 0) {
+        audio.muted = false;
+        audio.volume = lastVolume > 0 ? lastVolume : 0.15;
+      } else {
+        lastVolume = audio.volume;
+        audio.muted = true;
+      }
+      syncVolumeUI();
     });
+
+    volumeSlider.addEventListener("input", () => {
+      const val = parseFloat(volumeSlider.value);
+      audio.muted = val === 0;
+      audio.volume = val;
+      if (val > 0) lastVolume = val;
+      syncVolumeUI();
+    });
+
+    seekSlider.addEventListener("input", () => {
+      isSeeking = true;
+      const pct = parseFloat(seekSlider.value);
+      setRangePct(seekSlider, pct);
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        timeCurrent.textContent = formatTime((pct / 100) * audio.duration);
+      }
+    });
+
+    seekSlider.addEventListener("change", () => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = (parseFloat(seekSlider.value) / 100) * audio.duration;
+      }
+      isSeeking = false;
+    });
+
+    audio.addEventListener("loadedmetadata", syncDuration);
+    audio.addEventListener("durationchange", syncDuration);
+    audio.addEventListener("timeupdate", syncProgress);
+    audio.addEventListener("play", syncButton);
+    audio.addEventListener("pause", syncButton);
 
     document.querySelectorAll("[data-target]").forEach((btn) => {
       btn.addEventListener("click", () => goToSlide(Number(btn.dataset.target)));
