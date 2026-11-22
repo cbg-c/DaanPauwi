@@ -10,7 +10,6 @@
   <style>
     :root {
       --bg: #fdf9f3;
-      --dot: #e7ddd0;
       --box-bg: #fffdf9;
       --ink: #2f2823;
       --muted: #786a5e;
@@ -19,13 +18,18 @@
       --accent: #dfa06e;
       --btn-bg: #f5eadb;
       --q-page-bg: #fbf2ee;
-      --q-dot: #ead7cf;
       --q-bg: #fff7f4;
       --q-ink: #38211f;
       --q-muted: #8a635e;
       --q-border: #e5c3ba;
       --q-shadow: #efd5ce;
       --q-accent: #cf6f68;
+      --map-road: #ece3d4;
+      --map-hwy: #e2d6c4;
+      --map-water: rgba(173, 198, 211, 0.34);
+      --map-route-base: #d8cbb8;
+      --map-gps: #5e90d6;
+      --map-label: #9c8e7e;
       --sp-bg: #181818;
       --sp-surface: #282828;
       --sp-green: #1db954;
@@ -45,8 +49,6 @@
 
     body {
       background-color: var(--bg);
-      background-image: radial-gradient(var(--dot) 1.25px, transparent 1.25px);
-      background-size: 22px 22px;
       color: var(--ink);
       font: 17px/1.75 Georgia, "Iowan Old Style", "Times New Roman", serif;
       display: flex;
@@ -57,10 +59,196 @@
 
     body.on-question {
       background-color: var(--q-page-bg);
-      background-image: radial-gradient(var(--q-dot) 1.25px, transparent 1.25px);
+      --map-road: #efe0da;
+      --map-hwy: #e7d2ca;
+      --map-route-base: #dec4bc;
+      --map-gps: #cf6f68;
+    }
+
+    .map-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .map-bg svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .map-road {
+      fill: none;
+      stroke: var(--map-road);
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      transition: stroke 0.7s ease;
+    }
+
+    .map-hwy {
+      fill: none;
+      stroke: var(--map-hwy);
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      transition: stroke 0.7s ease;
+    }
+
+    .map-water {
+      fill: none;
+      stroke: var(--map-water);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .map-border {
+      fill: none;
+      stroke: var(--map-hwy);
+      stroke-width: 1.2;
+      stroke-dasharray: 5 7;
+      opacity: 0.75;
+    }
+
+    .route-base {
+      fill: none;
+      stroke: var(--map-route-base);
+      stroke-width: 3.5;
+      stroke-dasharray: 7 8;
+      stroke-linecap: round;
+      transition: stroke 0.7s ease;
+    }
+
+    .route-casing {
+      fill: none;
+      stroke: #fffdf9;
+      stroke-width: 7.5;
+      stroke-linecap: round;
+      opacity: 0.88;
+    }
+
+    .route-active {
+      fill: none;
+      stroke: var(--map-gps);
+      stroke-width: 4;
+      stroke-linecap: round;
+      transition: stroke 0.7s ease;
+    }
+
+    .map-label {
+      font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.12em;
+      fill: var(--map-label);
+      text-transform: uppercase;
+    }
+
+    .map-sublabel {
+      font: 500 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.06em;
+      fill: var(--map-label);
+      opacity: 0.75;
+    }
+
+    .gps-pulse {
+      fill: var(--map-gps);
+      opacity: 0.22;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: gps-ring 2.4s ease-out infinite;
+      transition: fill 0.7s ease;
+    }
+
+    .gps-dot {
+      fill: var(--map-gps);
+      stroke: #ffffff;
+      stroke-width: 2.5;
+      transition: fill 0.7s ease;
+    }
+
+    @keyframes gps-ring {
+      0% { transform: scale(0.8); opacity: 0.34; }
+      70% { transform: scale(2.1); opacity: 0; }
+      100% { transform: scale(2.1); opacity: 0; }
+    }
+
+    .margin-photos {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.65s ease 0.15s;
+    }
+
+    .margin-photos.visible {
+      opacity: 1;
+    }
+
+    .margin-photo {
+      position: absolute;
+      margin: 0;
+      padding: 6px;
+      background: #fffdf9;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      box-shadow: 3px 5px 14px rgba(47, 40, 35, 0.12);
+      pointer-events: auto;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    }
+
+    .margin-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    .photo-left-top {
+      top: 23%;
+      left: clamp(1rem, 3vw, 3.25rem);
+      width: clamp(110px, 11vw, 152px);
+      transform: rotate(-5.5deg);
+    }
+
+    .photo-left-bottom {
+      bottom: 8%;
+      left: clamp(2.25rem, 6.2vw, 5.75rem);
+      width: clamp(110px, 11vw, 152px);
+      transform: rotate(4.5deg);
+    }
+
+    .photo-right {
+      top: 44%;
+      right: clamp(1.5rem, 4.5vw, 4.75rem);
+      width: clamp(84px, 8vw, 112px);
+      transform: translateY(-50%) rotate(3.5deg);
+    }
+
+    .photo-right img {
+      max-height: 60vh;
+      object-fit: contain;
+    }
+
+    .margin-photo:hover {
+      box-shadow: 5px 10px 22px rgba(47, 40, 35, 0.18);
+      z-index: 3;
+    }
+
+    .photo-left-top:hover {
+      transform: rotate(-1.5deg) scale(1.05);
+    }
+
+    .photo-left-bottom:hover {
+      transform: rotate(1deg) scale(1.05);
+    }
+
+    .photo-right:hover {
+      transform: translateY(-50%) rotate(0.5deg) scale(1.05);
     }
 
     .cover {
+      position: relative;
+      z-index: 2;
       margin: auto;
       width: 100%;
       max-width: 390px;
@@ -141,6 +329,8 @@
     }
 
     .wrap {
+      position: relative;
+      z-index: 2;
       width: 100%;
       max-width: 620px;
       height: 100%;
@@ -571,6 +761,12 @@
       transform: translateY(-2px);
     }
 
+    @media (max-width: 940px) {
+      .margin-photos {
+        display: none;
+      }
+    }
+
     @media (max-width: 520px) {
       body {
         padding: 1.25rem 1rem;
@@ -611,6 +807,75 @@
   </style>
 </head>
 <body>
+  <div class="map-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <path class="map-water" stroke-width="9" d="M 80 40 C 140 95, 170 115, 210 145 C 245 120, 290 75, 345 15" />
+      <path class="map-water" stroke-width="7" d="M 210 145 C 225 215, 195 275, 165 340" />
+      <path class="map-water" stroke-width="8" d="M 520 355 C 635 370, 745 350, 865 405 C 970 450, 1085 455, 1215 535" />
+      <path class="map-water" stroke-width="9" d="M 960 720 C 1075 735, 1165 745, 1245 770 C 1320 795, 1380 825, 1460 855" />
+
+      <path class="map-border" d="M 40 245 L 545 255 L 775 295 L 985 330 L 1400 310" />
+      <path class="map-border" d="M 380 252 C 395 360, 445 480, 560 585 C 655 665, 760 715, 865 860" />
+
+      <path class="map-road" d="M 60 175 L 340 120 L 650 185 L 980 145 L 1360 220" />
+      <path class="map-road" d="M 110 470 L 420 420 L 790 480 L 1160 415 L 1420 470" />
+      <path class="map-road" d="M 140 735 L 490 665 L 885 715 L 1280 650 L 1435 695" />
+      <path class="map-road" d="M 310 20 L 255 385 L 330 880" />
+      <path class="map-road" d="M 670 30 L 620 460 L 690 885" />
+      <path class="map-road" d="M 1090 25 L 1035 445 L 1125 890" />
+
+      <path class="map-hwy" d="M 55 85 C 145 118, 250 155, 420 190 C 610 230, 825 265, 1140 315" />
+      <path class="map-hwy" d="M 205 140 C 185 280, 175 435, 120 675" />
+      <path class="map-hwy" d="M 1035 65 C 965 245, 845 425, 675 615 C 585 715, 495 805, 425 890" />
+      <path class="map-hwy" d="M 1345 140 C 1310 355, 1275 565, 1235 765 L 1205 895" />
+      <path class="map-hwy" d="M 560 770 C 785 755, 1020 755, 1235 765 C 1320 770, 1385 785, 1445 795" />
+
+      <path
+        class="route-base"
+        d="M 205 140 C 245 215, 290 250, 355 295 S 475 385, 560 415 S 690 455, 765 510 S 905 605, 1005 635 S 1155 705, 1235 765"
+      />
+      <path
+        id="route-casing"
+        class="route-casing"
+        d="M 205 140 C 245 215, 290 250, 355 295 S 475 385, 560 415 S 690 455, 765 510 S 905 605, 1005 635 S 1155 705, 1235 765"
+      />
+      <path
+        id="route-active"
+        class="route-active"
+        d="M 205 140 C 245 215, 290 250, 355 295 S 475 385, 560 415 S 690 455, 765 510 S 905 605, 1005 635 S 1155 705, 1235 765"
+      />
+
+      <text class="map-sublabel" x="280" y="272">I-79 / I-68</text>
+      <text class="map-sublabel" x="782" y="502">I-81</text>
+      <text class="map-sublabel" x="1032" y="628">I-64 E</text>
+
+      <circle cx="205" cy="140" r="6" fill="#fffdf9" stroke="#786a5e" stroke-width="2.5" />
+      <text class="map-label" x="220" y="138">Pittsburgh, PA</text>
+      <text class="map-sublabel" x="220" y="152">40.44° N, 79.99° W</text>
+
+      <circle cx="1235" cy="765" r="6.5" fill="#cf6f68" stroke="#fffdf9" stroke-width="2.5" />
+      <text class="map-label" x="1220" y="794" text-anchor="end">Richmond, VA</text>
+      <text class="map-sublabel" x="1220" y="808" text-anchor="end">37.54° N, 77.43° W</text>
+
+      <g id="gps-marker" transform="translate(205, 140)">
+        <circle class="gps-pulse" cx="0" cy="0" r="10" />
+        <circle class="gps-dot" cx="0" cy="0" r="5.5" />
+      </g>
+    </svg>
+  </div>
+
+  <div id="margin-photos" class="margin-photos" aria-hidden="true">
+    <figure class="margin-photo photo-left-top">
+      <img src="./baobei1.jpg" alt="">
+    </figure>
+    <figure class="margin-photo photo-left-bottom">
+      <img src="./baobei2.jpg" alt="">
+    </figure>
+    <figure class="margin-photo photo-right">
+      <img src="./baobei0.jpg" alt="">
+    </figure>
+  </div>
+
   <div id="cover" class="cover">
     <div class="envelope">
       <span class="badge" aria-label="1 unread note">1</span>
@@ -689,8 +954,7 @@
         <section class="box">
           <h2>Hi Love,</h2>
           <p>
-            I know it feels like our nyc apartment got blown up by a flying butthole, <br>
-            <br>
+            I know it feels like our nyc apartment got blown up by a flying butthole,
             but we always end up finding enough cobblestone to piece it together. <br>
             <br>
             There's no other family on earth that will make me feel as home as you do.
@@ -733,6 +997,7 @@
     const cover = document.getElementById("cover");
     const openBtn = document.getElementById("open-btn");
     const content = document.getElementById("content");
+    const marginPhotos = document.getElementById("margin-photos");
     const audio = document.getElementById("bg-audio");
     const player = document.getElementById("sp-player");
     const audioBtn = document.getElementById("audio-toggle");
@@ -745,6 +1010,9 @@
     const seekSlider = document.getElementById("seek-slider");
     const timeCurrent = document.getElementById("time-current");
     const timeDuration = document.getElementById("time-duration");
+    const routeActive = document.getElementById("route-active");
+    const routeCasing = document.getElementById("route-casing");
+    const gpsMarker = document.getElementById("gps-marker");
     const slides = [
       document.getElementById("slide-0"),
       document.getElementById("slide-1"),
@@ -757,6 +1025,44 @@
     let touchStartY = null;
     let isSeeking = false;
     let lastVolume = parseFloat(volumeSlider.value);
+
+    const routeLength = routeActive.getTotalLength();
+    const slideRouteStops = [0.1, 0.42, 0.74, 1];
+    let currentRoutePct = 0;
+    let routeAnimFrame = null;
+
+    routeActive.style.strokeDasharray = routeLength;
+    routeCasing.style.strokeDasharray = routeLength;
+
+    function setRouteProgress(pct) {
+      currentRoutePct = pct;
+      const offset = routeLength * (1 - pct);
+      routeActive.style.strokeDashoffset = offset;
+      routeCasing.style.strokeDashoffset = offset;
+      const pt = routeActive.getPointAtLength(routeLength * pct);
+      gpsMarker.setAttribute("transform", `translate(${pt.x.toFixed(1)}, ${pt.y.toFixed(1)})`);
+    }
+
+    function animateRouteTo(targetPct, duration = 700) {
+      if (routeAnimFrame) cancelAnimationFrame(routeAnimFrame);
+      const startPct = currentRoutePct;
+      const startTime = performance.now();
+
+      function step(now) {
+        const t = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        setRouteProgress(startPct + (targetPct - startPct) * eased);
+        if (t < 1) {
+          routeAnimFrame = requestAnimationFrame(step);
+        } else {
+          routeAnimFrame = null;
+        }
+      }
+
+      routeAnimFrame = requestAnimationFrame(step);
+    }
+
+    setRouteProgress(0);
 
     function formatTime(sec) {
       if (!Number.isFinite(sec) || sec < 0) return "0:00";
@@ -831,6 +1137,7 @@
       });
 
       document.body.classList.toggle("on-question", index === slides.length - 1);
+      animateRouteTo(slideRouteStops[index]);
 
       setTimeout(() => {
         isLocked = false;
@@ -840,7 +1147,11 @@
     openBtn.addEventListener("click", () => {
       cover.classList.add("hidden");
       content.classList.remove("hidden");
-      requestAnimationFrame(() => content.classList.add("visible"));
+      requestAnimationFrame(() => {
+        content.classList.add("visible");
+        marginPhotos.classList.add("visible");
+      });
+      animateRouteTo(slideRouteStops[0], 900);
       audio.play().then(syncButton).catch(syncButton);
     });
 
