@@ -24,10 +24,9 @@
       --q-border: #e5c3ba;
       --q-shadow: #efd5ce;
       --q-accent: #cf6f68;
-      --map-road: #ece3d4;
-      --map-hwy: #e2d6c4;
-      --map-water: rgba(173, 198, 211, 0.34);
-      --map-route-base: #d8cbb8;
+      --map-hwy: #e7ddce;
+      --map-water: rgba(173, 198, 211, 0.28);
+      --map-route-base: #ddd0be;
       --map-gps: #5e90d6;
       --map-label: #9c8e7e;
       --sp-bg: #181818;
@@ -59,9 +58,8 @@
 
     body.on-question {
       background-color: var(--q-page-bg);
-      --map-road: #efe0da;
-      --map-hwy: #e7d2ca;
-      --map-route-base: #dec4bc;
+      --map-hwy: #ebd8d1;
+      --map-route-base: #e2c9c2;
       --map-gps: #cf6f68;
     }
 
@@ -79,19 +77,12 @@
       display: block;
     }
 
-    .map-road {
-      fill: none;
-      stroke: var(--map-road);
-      stroke-width: 1.4;
-      stroke-linecap: round;
-      transition: stroke 0.7s ease;
-    }
-
     .map-hwy {
       fill: none;
       stroke: var(--map-hwy);
-      stroke-width: 2.6;
+      stroke-width: 2;
       stroke-linecap: round;
+      opacity: 0.75;
       transition: stroke 0.7s ease;
     }
 
@@ -100,14 +91,6 @@
       stroke: var(--map-water);
       stroke-linecap: round;
       stroke-linejoin: round;
-    }
-
-    .map-border {
-      fill: none;
-      stroke: var(--map-hwy);
-      stroke-width: 1.2;
-      stroke-dasharray: 5 7;
-      opacity: 0.75;
     }
 
     .route-base {
@@ -187,7 +170,7 @@
     .margin-photo {
       position: absolute;
       margin: 0;
-      padding: 6px;
+      padding: 7px;
       background: #fffdf9;
       border: 1px solid var(--border);
       border-radius: 5px;
@@ -204,28 +187,28 @@
     }
 
     .photo-left-top {
-      top: 23%;
-      left: clamp(1rem, 3vw, 3.25rem);
-      width: clamp(110px, 11vw, 152px);
+      top: 25%;
+      left: clamp(1rem, 2.8vw, 3.25rem);
+      width: clamp(132px, 13.5vw, 192px);
       transform: rotate(-5.5deg);
     }
 
     .photo-left-bottom {
-      bottom: 8%;
-      left: clamp(2.25rem, 6.2vw, 5.75rem);
-      width: clamp(110px, 11vw, 152px);
+      bottom: 6%;
+      left: clamp(2.25rem, 6.2vw, 6.25rem);
+      width: clamp(132px, 13.5vw, 192px);
       transform: rotate(4.5deg);
     }
 
     .photo-right {
-      top: 44%;
-      right: clamp(1.5rem, 4.5vw, 4.75rem);
-      width: clamp(84px, 8vw, 112px);
+      top: 38%;
+      right: clamp(1.25rem, 3.8vw, 4.5rem);
+      width: clamp(102px, 10vw, 144px);
       transform: translateY(-50%) rotate(3.5deg);
     }
 
     .photo-right img {
-      max-height: 60vh;
+      max-height: 58vh;
       object-fit: contain;
     }
 
@@ -761,7 +744,22 @@
       transform: translateY(-2px);
     }
 
-    @media (max-width: 940px) {
+    @media (max-width: 1120px) {
+      .photo-left-top,
+      .photo-left-bottom {
+        width: 128px;
+      }
+
+      .photo-left-bottom {
+        left: 1.75rem;
+      }
+
+      .photo-right {
+        width: 98px;
+      }
+    }
+
+    @media (max-width: 980px) {
       .margin-photos {
         display: none;
       }
@@ -809,55 +807,39 @@
 <body>
   <div class="map-bg" aria-hidden="true">
     <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-      <path class="map-water" stroke-width="9" d="M 80 40 C 140 95, 170 115, 210 145 C 245 120, 290 75, 345 15" />
-      <path class="map-water" stroke-width="7" d="M 210 145 C 225 215, 195 275, 165 340" />
-      <path class="map-water" stroke-width="8" d="M 520 355 C 635 370, 745 350, 865 405 C 970 450, 1085 455, 1215 535" />
-      <path class="map-water" stroke-width="9" d="M 960 720 C 1075 735, 1165 745, 1245 770 C 1320 795, 1380 825, 1460 855" />
+      <path class="map-water" stroke-width="8" d="M 225 25 C 270 72, 295 96, 320 115 C 350 92, 385 55, 425 10" />
+      <path class="map-water" stroke-width="8" d="M 995 752 C 1065 764, 1110 772, 1140 785 C 1225 812, 1320 838, 1455 868" />
 
-      <path class="map-border" d="M 40 245 L 545 255 L 775 295 L 985 330 L 1400 310" />
-      <path class="map-border" d="M 380 252 C 395 360, 445 480, 560 585 C 655 665, 760 715, 865 860" />
-
-      <path class="map-road" d="M 60 175 L 340 120 L 650 185 L 980 145 L 1360 220" />
-      <path class="map-road" d="M 110 470 L 420 420 L 790 480 L 1160 415 L 1420 470" />
-      <path class="map-road" d="M 140 735 L 490 665 L 885 715 L 1280 650 L 1435 695" />
-      <path class="map-road" d="M 310 20 L 255 385 L 330 880" />
-      <path class="map-road" d="M 670 30 L 620 460 L 690 885" />
-      <path class="map-road" d="M 1090 25 L 1035 445 L 1125 890" />
-
-      <path class="map-hwy" d="M 55 85 C 145 118, 250 155, 420 190 C 610 230, 825 265, 1140 315" />
-      <path class="map-hwy" d="M 205 140 C 185 280, 175 435, 120 675" />
-      <path class="map-hwy" d="M 1035 65 C 965 245, 845 425, 675 615 C 585 715, 495 805, 425 890" />
-      <path class="map-hwy" d="M 1345 140 C 1310 355, 1275 565, 1235 765 L 1205 895" />
-      <path class="map-hwy" d="M 560 770 C 785 755, 1020 755, 1235 765 C 1320 770, 1385 785, 1445 795" />
+      <path class="map-hwy" d="M 1035 45 C 945 245, 815 440, 620 655 C 540 742, 465 820, 405 895" />
+      <path class="map-hwy" d="M 545 785 C 765 772, 985 774, 1140 785 C 1255 794, 1355 808, 1450 822" />
 
       <path
         class="route-base"
-        d="M 205 140 C 245 215, 290 250, 355 295 S 475 385, 560 415 S 690 455, 765 510 S 905 605, 1005 635 S 1155 705, 1235 765"
+        d="M 320 115 C 370 195, 435 255, 520 315 S 680 430, 755 485 S 915 595, 1005 655 S 1095 730, 1140 785"
       />
       <path
         id="route-casing"
         class="route-casing"
-        d="M 205 140 C 245 215, 290 250, 355 295 S 475 385, 560 415 S 690 455, 765 510 S 905 605, 1005 635 S 1155 705, 1235 765"
+        d="M 320 115 C 370 195, 435 255, 520 315 S 680 430, 755 485 S 915 595, 1005 655 S 1095 730, 1140 785"
       />
       <path
         id="route-active"
         class="route-active"
-        d="M 205 140 C 245 215, 290 250, 355 295 S 475 385, 560 415 S 690 455, 765 510 S 905 605, 1005 635 S 1155 705, 1235 765"
+        d="M 320 115 C 370 195, 435 255, 520 315 S 680 430, 755 485 S 915 595, 1005 655 S 1095 730, 1140 785"
       />
 
-      <text class="map-sublabel" x="280" y="272">I-79 / I-68</text>
-      <text class="map-sublabel" x="782" y="502">I-81</text>
-      <text class="map-sublabel" x="1032" y="628">I-64 E</text>
+      <text class="map-sublabel" x="455" y="255">I-79 / I-68</text>
+      <text class="map-sublabel" x="975" y="618">I-64 E</text>
 
-      <circle cx="205" cy="140" r="6" fill="#fffdf9" stroke="#786a5e" stroke-width="2.5" />
-      <text class="map-label" x="220" y="138">Pittsburgh, PA</text>
-      <text class="map-sublabel" x="220" y="152">40.44° N, 79.99° W</text>
+      <circle cx="320" cy="115" r="6" fill="#fffdf9" stroke="#786a5e" stroke-width="2.5" />
+      <text class="map-label" x="336" y="113">Pittsburgh, PA</text>
+      <text class="map-sublabel" x="336" y="127">40.44° N, 79.99° W</text>
 
-      <circle cx="1235" cy="765" r="6.5" fill="#cf6f68" stroke="#fffdf9" stroke-width="2.5" />
-      <text class="map-label" x="1220" y="794" text-anchor="end">Richmond, VA</text>
-      <text class="map-sublabel" x="1220" y="808" text-anchor="end">37.54° N, 77.43° W</text>
+      <circle cx="1140" cy="785" r="6.5" fill="#cf6f68" stroke="#fffdf9" stroke-width="2.5" />
+      <text class="map-label" x="1124" y="783" text-anchor="end">Richmond, VA</text>
+      <text class="map-sublabel" x="1124" y="797" text-anchor="end">37.54° N, 77.43° W</text>
 
-      <g id="gps-marker" transform="translate(205, 140)">
+      <g id="gps-marker" transform="translate(320, 115)">
         <circle class="gps-pulse" cx="0" cy="0" r="10" />
         <circle class="gps-dot" cx="0" cy="0" r="5.5" />
       </g>
@@ -929,7 +911,7 @@
                   <path d="M10.116 1.5A.75.75 0 0 0 8.991.85l-6.925 4a3.642 3.642 0 0 0-1.33 4.967 3.639 3.639 0 0 0 1.33 1.332l6.925 4a.75.75 0 0 0 1.125-.649v-1.906a4.73 4.73 0 0 1-1.5-.694v1.3L2.817 9.852a2.141 2.141 0 0 1-.781-2.92c.187-.324.456-.594.78-.782l5.8-3.35v1.3c.45-.313.956-.55 1.5-.694V1.5z"/>
                 </svg>
               </button>
-              <input id="volume-slider" class="sp-range sp-vol-slider" type="range" min="0" max="1" step="0.01" value="0.15" aria-label="Music volume">
+              <input id="volume-slider" class="sp-range sp-vol-slider" type="range" min="0" max="1" step="0.01" value="0.12" aria-label="Music volume">
             </div>
           </div>
         </div>
