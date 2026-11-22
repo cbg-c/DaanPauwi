@@ -187,22 +187,22 @@
     }
 
     .photo-left-top {
-      top: 25%;
-      left: clamp(1rem, 2.8vw, 3.25rem);
-      width: clamp(132px, 13.5vw, 192px);
+      top: 29%;
+      left: clamp(2rem, 7vw, 13.5rem);
+      width: clamp(132px, 13vw, 190px);
       transform: rotate(-5.5deg);
     }
 
     .photo-left-bottom {
-      bottom: 6%;
-      left: clamp(2.25rem, 6.2vw, 6.25rem);
-      width: clamp(132px, 13.5vw, 192px);
+      bottom: 8%;
+      left: clamp(3.25rem, 10.5vw, 17.5rem);
+      width: clamp(132px, 13vw, 190px);
       transform: rotate(4.5deg);
     }
 
     .photo-right {
-      top: 38%;
-      right: clamp(1.25rem, 3.8vw, 4.5rem);
+      top: 37%;
+      right: clamp(2.25rem, 8.5vw, 14.5rem);
       width: clamp(102px, 10vw, 144px);
       transform: translateY(-50%) rotate(3.5deg);
     }
@@ -744,22 +744,24 @@
       transform: translateY(-2px);
     }
 
-    @media (max-width: 1120px) {
-      .photo-left-top,
-      .photo-left-bottom {
-        width: 128px;
+    @media (max-width: 1240px) {
+      .photo-left-top {
+        left: 2rem;
+        width: 136px;
       }
 
       .photo-left-bottom {
-        left: 1.75rem;
+        left: 3.25rem;
+        width: 136px;
       }
 
       .photo-right {
-        width: 98px;
+        right: 2.25rem;
+        width: 104px;
       }
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1020px) {
       .margin-photos {
         display: none;
       }
@@ -807,39 +809,39 @@
 <body>
   <div class="map-bg" aria-hidden="true">
     <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-      <path class="map-water" stroke-width="8" d="M 225 25 C 270 72, 295 96, 320 115 C 350 92, 385 55, 425 10" />
-      <path class="map-water" stroke-width="8" d="M 995 752 C 1065 764, 1110 772, 1140 785 C 1225 812, 1320 838, 1455 868" />
+      <path class="map-water" stroke-width="8" d="M 190 95 C 235 142, 260 168, 285 190 C 315 166, 350 130, 390 85" />
+      <path class="map-water" stroke-width="8" d="M 1010 678 C 1075 688, 1122 698, 1155 710 C 1235 736, 1325 762, 1455 790" />
 
-      <path class="map-hwy" d="M 1035 45 C 945 245, 815 440, 620 655 C 540 742, 465 820, 405 895" />
-      <path class="map-hwy" d="M 545 785 C 765 772, 985 774, 1140 785 C 1255 794, 1355 808, 1450 822" />
+      <path class="map-hwy" d="M 1035 65 C 945 255, 815 445, 620 650 C 540 735, 465 810, 405 885" />
+      <path class="map-hwy" d="M 545 710 C 765 698, 985 700, 1155 710 C 1265 718, 1360 730, 1450 742" />
 
       <path
         class="route-base"
-        d="M 320 115 C 370 195, 435 255, 520 315 S 680 430, 755 485 S 915 595, 1005 655 S 1095 730, 1140 785"
+        d="M 285 190 C 345 260, 415 315, 520 355 C 625 395, 710 475, 835 535 C 960 595, 1065 640, 1155 710"
       />
       <path
         id="route-casing"
         class="route-casing"
-        d="M 320 115 C 370 195, 435 255, 520 315 S 680 430, 755 485 S 915 595, 1005 655 S 1095 730, 1140 785"
+        d="M 285 190 C 345 260, 415 315, 520 355 C 625 395, 710 475, 835 535 C 960 595, 1065 640, 1155 710"
       />
       <path
         id="route-active"
         class="route-active"
-        d="M 320 115 C 370 195, 435 255, 520 315 S 680 430, 755 485 S 915 595, 1005 655 S 1095 730, 1140 785"
+        d="M 285 190 C 345 260, 415 315, 520 355 C 625 395, 710 475, 835 535 C 960 595, 1065 640, 1155 710"
       />
 
-      <text class="map-sublabel" x="455" y="255">I-79</text>
-      <text class="map-sublabel" x="975" y="618">I-64 E</text>
+      <text class="map-sublabel" x="435" y="305">I-79</text>
+      <text class="map-sublabel" x="990" y="592">I-64 E</text>
 
-      <circle cx="320" cy="115" r="6" fill="#fffdf9" stroke="#786a5e" stroke-width="2.5" />
-      <text class="map-label" x="336" y="113">Pittsburgh, PA</text>
-      <text class="map-sublabel" x="336" y="127">40.44° N, 79.99° W</text>
+      <circle cx="285" cy="190" r="6" fill="#fffdf9" stroke="#786a5e" stroke-width="2.5" />
+      <text class="map-label" x="301" y="188">Pittsburgh, PA</text>
+      <text class="map-sublabel" x="301" y="202">40.44° N, 79.99° W</text>
 
-      <circle cx="1140" cy="785" r="6.5" fill="#cf6f68" stroke="#fffdf9" stroke-width="2.5" />
-      <text class="map-label" x="1124" y="783" text-anchor="end">Richmond, VA</text>
-      <text class="map-sublabel" x="1124" y="797" text-anchor="end">37.54° N, 77.43° W</text>
+      <circle cx="1155" cy="710" r="6.5" fill="#cf6f68" stroke="#fffdf9" stroke-width="2.5" />
+      <text class="map-label" x="1139" y="708" text-anchor="end">Richmond, VA</text>
+      <text class="map-sublabel" x="1139" y="722" text-anchor="end">37.54° N, 77.43° W</text>
 
-      <g id="gps-marker" transform="translate(320, 115)">
+      <g id="gps-marker" transform="translate(285, 190)">
         <circle class="gps-pulse" cx="0" cy="0" r="10" />
         <circle class="gps-dot" cx="0" cy="0" r="5.5" />
       </g>
@@ -951,7 +953,7 @@
           <p>
             I don't want to rush you or make you feel like it's now or never. <br>
             <br>
-            You will always have me, and just like at union station, I'll always be there to pick you up.
+            You will always have me, and just like at Union Station, I'll always be there to pick you up.
           </p>
         </section>
         <button class="scroll-hint" type="button" data-target="3">&#8595; scroll</button>
@@ -1149,7 +1151,7 @@
     muteBtn.addEventListener("click", () => {
       if (audio.muted || audio.volume === 0) {
         audio.muted = false;
-        audio.volume = lastVolume > 0 ? lastVolume : 0.15;
+        audio.volume = lastVolume > 0 ? lastVolume : 0.12;
       } else {
         lastVolume = audio.volume;
         audio.muted = true;
